@@ -90,6 +90,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (profileError) {
         console.error("Profile creation error:", profileError);
       }
+
+      await fetchProfile(data.user.id);
     }
 
     return { error: null };

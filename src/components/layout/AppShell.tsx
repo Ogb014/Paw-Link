@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, Navigate } from "react-router-dom";
 import {
   LayoutDashboard,
   PawPrint,
@@ -45,8 +45,7 @@ export function AppShell() {
   }
 
   if (!user) {
-    navigate("/login", { replace: true, state: { from: "/app" } });
-    return null;
+    return <Navigate to="/login" replace state={{ from: "/app" }} />;
   }
 
   const role = profile?.role ?? "breeder";
@@ -198,3 +197,6 @@ export function AppShell() {
     </div>
   );
 }
+
+
+export { AppShell }
