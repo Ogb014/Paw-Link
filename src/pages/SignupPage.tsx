@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock, User, AlertCircle, Loader2, Check } from "lucide-react";
+import { Mail, Lock, User, CircleAlert as AlertCircle, Loader as Loader2, Check } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import type { UserRole } from "../types/database";
 
