@@ -471,6 +471,3 @@ function KennelSetupForm({ onSubmit, onCancel }: { onSubmit: (name: string, loca
     </div>
   );
 }
-
-
-export { BreederDashboardPage }
