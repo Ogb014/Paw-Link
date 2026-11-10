@@ -1,13 +1,13 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock, User, CircleAlert as AlertCircle, Loader as Loader2, Check } from "lucide-react";
+import { Mail, Lock, User, CircleAlert as AlertCircle, Loader as Loader2, Check, PawPrint } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { K9Dog } from "../components/K9Dog";
 import type { UserRole } from "../types/database";
 
-const roles: { value: UserRole; label: string; description: string }[] = [
-  { value: "breeder", label: "Breeder", description: "I manage a kennel and want to list dogs" },
-  { value: "buyer", label: "Buyer", description: "I'm looking for a dog to bring home" },
-  { value: "service_seeker", label: "Service Seeker", description: "I need breeding services" },
+const roles: { value: UserRole; label: string; description: string; emoji: string }[] = [
+  { value: "breeder", label: "Breeder", description: "I manage a kennel and want to list dogs", emoji: "🏠" },
+  { value: "buyer", label: "Buyer", description: "I'm looking for a dog to bring home", emoji: "🐕" },
 ];
 
 export function SignupPage() {
@@ -41,9 +41,37 @@ export function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-b from-primary-50/40 to-white">
-      <div className="flex flex-1 items-center justify-center px-4 py-12">
+    <div className="flex min-h-screen">
+      {/* Animated K9 panel */}
+      <div className="relative hidden w-1/2 flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 lg:flex">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute right-10 top-16 text-white">
+            <PawPrint className="h-12 w-12 animate-paw-walk" style={{ animationDelay: "0.5s" }} />
+          </div>
+          <div className="absolute left-16 top-1/2 text-white">
+            <PawPrint className="h-10 w-10 animate-paw-walk" style={{ animationDelay: "1.5s" }} />
+          </div>
+          <div className="absolute right-1/4 bottom-20 text-white">
+            <PawPrint className="h-14 w-14 animate-paw-walk" style={{ animationDelay: "2.5s" }} />
+          </div>
+        </div>
+
+        <div className="relative z-10 flex flex-col items-center text-white">
+          <K9Dog size={180} />
+          <h2 className="mt-8 font-display text-3xl font-bold">Join the pack!</h2>
+          <p className="mt-2 max-w-xs text-center text-primary-100">
+            Create your account and start connecting with dog breeders and buyers today.
+          </p>
+        </div>
+      </div>
+
+      {/* Form panel */}
+      <div className="flex w-full flex-col items-center justify-center bg-gradient-to-b from-primary-50/30 to-white px-4 py-12 lg:w-1/2">
         <div className="w-full max-w-md">
+          <div className="mb-6 text-center lg:hidden">
+            <K9Dog size={90} />
+          </div>
+
           <div className="text-center">
             <Link to="/" className="inline-block">
               <span className="font-display text-2xl font-bold tracking-tight text-neutral-900">
@@ -54,7 +82,7 @@ export function SignupPage() {
               Create your account
             </h1>
             <p className="mt-2 text-sm text-neutral-500">
-              Join Paw Link — free to start, no credit card required
+              Free to start — no credit card required
             </p>
           </div>
 
@@ -80,11 +108,14 @@ export function SignupPage() {
                         : "border-neutral-200 bg-white hover:border-neutral-300"
                     }`}
                   >
-                    <div>
-                      <p className={`text-sm font-semibold ${role === r.value ? "text-primary-900" : "text-neutral-800"}`}>
-                        {r.label}
-                      </p>
-                      <p className="text-xs text-neutral-500">{r.description}</p>
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{r.emoji}</span>
+                      <div>
+                        <p className={`text-sm font-semibold ${role === r.value ? "text-primary-900" : "text-neutral-800"}`}>
+                          {r.label}
+                        </p>
+                        <p className="text-xs text-neutral-500">{r.description}</p>
+                      </div>
                     </div>
                     {role === r.value && (
                       <Check className="h-5 w-5 text-primary-600" strokeWidth={2.5} />
@@ -95,9 +126,7 @@ export function SignupPage() {
             </div>
 
             <div>
-              <label htmlFor="name" className="label">
-                Full name
-              </label>
+              <label htmlFor="name" className="label">Full name</label>
               <div className="relative">
                 <User className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
                 <input
@@ -113,9 +142,7 @@ export function SignupPage() {
             </div>
 
             <div>
-              <label htmlFor="email" className="label">
-                Email address
-              </label>
+              <label htmlFor="email" className="label">Email address</label>
               <div className="relative">
                 <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
                 <input
@@ -132,9 +159,7 @@ export function SignupPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="label">
-                Password
-              </label>
+              <label htmlFor="password" className="label">Password</label>
               <div className="relative">
                 <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
                 <input

@@ -1,24 +1,25 @@
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate, Navigate } from "react-router-dom";
 import {
-  LayoutDashboard,
-  PawPrint,
-  Store,
-  Settings,
-  LogOut,
-  Menu,
-  X,
-  ChevronDown,
+  LayoutDashboard, PawPrint, Settings, Baby,
+  LogOut, Menu, X, ChevronDown, MessageSquare,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { Logo } from "../Logo";
 import type { UserRole } from "../../types/database";
 
-const navItems: { to: string; label: string; icon: typeof LayoutDashboard; roles: UserRole[] }[] = [
-  { to: "/app", label: "Dashboard", icon: LayoutDashboard, roles: ["breeder", "buyer", "service_seeker"] },
-  { to: "/app/dogs", label: "My Dogs", icon: PawPrint, roles: ["breeder"] },
-  { to: "/app/storefront", label: "Storefront", icon: Store, roles: ["breeder"] },
-  { to: "/app/settings", label: "Settings", icon: Settings, roles: ["breeder", "buyer", "service_seeker"] },
+const breederNav: { to: string; label: string; icon: typeof LayoutDashboard }[] = [
+  { to: "/app", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/app/dogs", label: "My Dogs", icon: PawPrint },
+  { to: "/app/litters", label: "Litters", icon: Baby },
+  { to: "/app/messages", label: "Messages", icon: MessageSquare },
+  { to: "/app/settings", label: "Settings", icon: Settings },
+];
+
+const buyerNav: { to: string; label: string; icon: typeof LayoutDashboard }[] = [
+  { to: "/app", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/app/messages", label: "Messages", icon: MessageSquare },
+  { to: "/app/settings", label: "Settings", icon: Settings },
 ];
 
 const roleLabels: Record<UserRole, string> = {
@@ -49,7 +50,7 @@ export function AppShell() {
   }
 
   const role = profile?.role ?? "breeder";
-  const visibleNav = navItems.filter((item) => item.roles.includes(role));
+  const visibleNav = role === "buyer" ? buyerNav : role === "service_seeker" ? buyerNav : breederNav;
 
   async function handleSignOut() {
     await signOut();
@@ -197,6 +198,3 @@ export function AppShell() {
     </div>
   );
 }
-
-
-export { AppShell }

@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Mail, Lock, CircleAlert as AlertCircle, Loader as Loader2 } from "lucide-react";
+import { Mail, Lock, CircleAlert as AlertCircle, Loader as Loader2, PawPrint } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { K9Dog } from "../components/K9Dog";
 
 export function LoginPage() {
   const { signIn } = useAuth();
@@ -29,9 +30,37 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-b from-primary-50/40 to-white">
-      <div className="flex flex-1 items-center justify-center px-4 py-12">
+    <div className="flex min-h-screen">
+      {/* Animated K9 panel */}
+      <div className="relative hidden w-1/2 flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 lg:flex">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute left-10 top-20 text-white">
+            <PawPrint className="h-12 w-12 animate-paw-walk" style={{ animationDelay: "0s" }} />
+          </div>
+          <div className="absolute right-20 top-40 text-white">
+            <PawPrint className="h-10 w-10 animate-paw-walk" style={{ animationDelay: "1s" }} />
+          </div>
+          <div className="absolute left-1/3 bottom-32 text-white">
+            <PawPrint className="h-14 w-14 animate-paw-walk" style={{ animationDelay: "2s" }} />
+          </div>
+        </div>
+
+        <div className="relative z-10 flex flex-col items-center text-white">
+          <K9Dog size={180} />
+          <h2 className="mt-8 font-display text-3xl font-bold">Welcome back!</h2>
+          <p className="mt-2 max-w-xs text-center text-primary-100">
+            Your furry friends are waiting. Sign in to manage your kennel or browse breeders.
+          </p>
+        </div>
+      </div>
+
+      {/* Form panel */}
+      <div className="flex w-full flex-col items-center justify-center bg-gradient-to-b from-primary-50/30 to-white px-4 py-12 lg:w-1/2">
         <div className="w-full max-w-md">
+          <div className="mb-8 text-center lg:hidden">
+            <K9Dog size={100} />
+          </div>
+
           <div className="text-center">
             <Link to="/" className="inline-block">
               <span className="font-display text-2xl font-bold tracking-tight text-neutral-900">
@@ -39,10 +68,10 @@ export function LoginPage() {
               </span>
             </Link>
             <h1 className="mt-6 text-3xl font-bold tracking-tight text-neutral-900">
-              Welcome back
+              Sign In
             </h1>
             <p className="mt-2 text-sm text-neutral-500">
-              Sign in to manage your kennel and listings
+              Welcome back — let's get you to your dashboard
             </p>
           </div>
 
@@ -55,9 +84,7 @@ export function LoginPage() {
             )}
 
             <div>
-              <label htmlFor="email" className="label">
-                Email address
-              </label>
+              <label htmlFor="email" className="label">Email address</label>
               <div className="relative">
                 <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
                 <input
@@ -74,9 +101,7 @@ export function LoginPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="label">
-                Password
-              </label>
+              <label htmlFor="password" className="label">Password</label>
               <div className="relative">
                 <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
                 <input
